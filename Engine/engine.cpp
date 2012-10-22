@@ -70,10 +70,10 @@ void Engine::InitGL() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 
-	GLfloat light_position[] = { 0.0, 2.0f, -5.0, 0.0 };
+	GLfloat light_position[] = { 0.0, 4.0f, 0.0, 0.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);

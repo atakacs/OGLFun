@@ -19,6 +19,7 @@ class HFT : public WObject{
 		Texture *m_texture;
 		CVector * m_heightfield;
 		CVector * m_normals;
+		CVector *m_surfaceNormals;
 		float m_xangle, m_yangle;
 		float m_xRotSpeed, m_yRotSpeed;
 

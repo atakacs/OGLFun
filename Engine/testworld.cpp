@@ -3,7 +3,7 @@
 #include "world.h"
 
 void TestWorld::Init() {
-	m_texture = new Texture("tex.tga");
+	m_texture = new Texture("heightmap.bmp");
 	//m_quad = new Quad(m_texture);
 	//m_quad2 = new Quad(0);
 	m_hft = new HFT(m_texture);
