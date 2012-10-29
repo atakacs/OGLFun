@@ -19,12 +19,14 @@ void TestWorld::UnInit() {
 
 void TestWorld::Animate(seconds_t seconds) {
 
+
 	if(GetEngine()->IsDown(SDLK_UP))
 		m_hft->SetXRotSpeed(-90.0f);
 	else if(GetEngine()->IsDown(SDLK_DOWN))
 		m_hft->SetXRotSpeed(90.0f);
 	else
 		m_hft->SetXRotSpeed(0.0f);
+
 /*
 	if(GetEngine()->IsDown(SDLK_RIGHT))
 		m_quad->SetYRotSpeed(90.0f);

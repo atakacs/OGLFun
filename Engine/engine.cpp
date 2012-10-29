@@ -14,7 +14,11 @@ void Engine::Init() {
 	InitWindow();
 	InitGL();
 	
-	m_world= new TestWorld(this);
+	m_camera = new Camera();
+	m_camera->SetPos(CVector(0.0f, 0.0f, 10.0f));
+	//m_camera->SetVel(CVector(0.0, 0.0f, -0.5f));
+
+	m_world = new TestWorld(this);
 	m_world->Init();
 }
 
@@ -131,34 +135,9 @@ void Engine::Draw() {
 	glLoadIdentity();
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	
-	glTranslatef(0.0f, 0.0f, -5.0f); 
-/*
-	glBegin(GL_QUAD_STRIP);
-		
-		glColor3f(0.8f, 0.0f, 0.0f);
-		//glTexCoord2f(0.0f, 0.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		
-		//glTexCoord2f(1.0f, 0.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		
-		glColor3f(0.8f, 0.8f, 0.8f);
-		//glTexCoord2f(1.0f, 1.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-		
-		//glTexCoord2f(0.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
-		
-		glColor3f(0.0f, 0.8f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glColor3f(0.0f, 0.0f, 0.8f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glColor3f(0.8f, 0.0f, 0.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-	glEnd();*/
+	// Camera stuff goes here
+	//glTranslatef(0.0f, 0.0f, -5.0f);
+	m_camera->Position();
 
 	m_world->Draw();
 
@@ -166,5 +145,20 @@ void Engine::Draw() {
 }
 
 void Engine::Animate(seconds_t seconds) {
+	scalar_t x = 0, y = 0, z = 0;
+	if(IsDown('w'))
+		z = -2.0f;
+	else if(IsDown('s'))
+		z = 2.0f;
+
+
+	if(IsDown('a'))
+			x = -2.0f;
+	else if(IsDown('d'))
+			x = 2.0f;
+
+	m_camera->SetVel(CVector(x, y, z));
+
+	m_camera->Prepare(seconds);
 	m_world->Animate(seconds);
 }

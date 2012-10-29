@@ -13,6 +13,7 @@
 
 #include "texture.h"
 #include "testworld.h"
+#include "camera.h"
 
 class Engine {
 	public:
@@ -30,6 +31,8 @@ class Engine {
 		SDL_Surface *dcontext;
 		
 		TestWorld *m_world;
+
+		Camera * m_camera;
 
 		void InitWindow();
 		void InitGL();
