@@ -22,7 +22,7 @@ void HFT::BuildHeightfield() {
 	m_heightfield = new CVector[width * height];
 	m_surfaceNormals = new CVector[width * height * 2];
 
-	m_normals= new CVector[width * height];
+	m_normals = new CVector[width * height];
 
 	unsigned char * pixels = (unsigned char*)m_texture->GetPixels();
 
@@ -58,6 +58,23 @@ void HFT::BuildHeightfield() {
 				m_surfaceNormals[(h*width + w)*2 + 1].Normalize();
 				//m_surfaceNormals[w * h + 1] = -m_surfaceNormals[w * h + 1];
 			}
+	}
+
+	// Calculate vertex normals
+
+	for(int h = 1; h < (height - 1); ++h) {
+		for(int w = 1; w < (width - 1); ++w) {
+			CVector sum = m_surfaceNormals[((h - 1)*width + w - 1)*2 + 1]; // 1
+			sum += m_surfaceNormals[((h - 1)*width + w)*2];
+			sum += m_surfaceNormals[((h - 1)*width + w)*2 + 1];
+			sum += m_surfaceNormals[(h*width + w - 1)*2 ];
+			sum += m_surfaceNormals[(h*width + w - 1)*2 + 1];
+			sum += m_surfaceNormals[(h*width + w)*2];
+
+
+			// Upper left
+			m_normals[h*width + w] = sum/6.0f;
+		}
 	}
 }
 
@@ -101,12 +118,16 @@ void HFT::OnDraw() {
 
 		for(int w = 0; w < width; ++w) {
 			//glColor3f(1.0f, 0, 0);
+			//if(w)
+			//				glNormal3f(m_surfaceNormals[(h*width + w - 1)*2].x, m_surfaceNormals[(h*width + w - 1)* 2].y, m_surfaceNormals[(h*width + w - 1)* 2].z );
 			if(w)
-				glNormal3f(m_surfaceNormals[(h*width + w - 1)*2].x, m_surfaceNormals[(h*width + w - 1)* 2].y, m_surfaceNormals[(h*width + w - 1)* 2].z );
+				glNormal3f(m_normals[h*width + w].x, m_normals[h*width + w].y, m_normals[h*width + w].z );
 			glVertex3f(m_heightfield[(h*width + w)].x, m_heightfield[(h*width + w)].y , m_heightfield[(h*width + w)].z);
 			//glColor3f(0.0f, 1.0f, 0);
+			//if(w)
+			//	glNormal3f(m_surfaceNormals[(h*width + w - 1)*2 + 1].x, m_surfaceNormals[(h*width + w - 1)*2 + 1].y, m_surfaceNormals[(h*width + w - 1)*2 + 1].z );
 			if(w)
-				glNormal3f(m_surfaceNormals[(h*width + w - 1)*2 + 1].x, m_surfaceNormals[(h*width + w - 1)*2 + 1].y, m_surfaceNormals[(h*width + w - 1)*2 + 1].z );
+				glNormal3f(m_normals[((h + 1)*width + w)].x, m_normals[((h + 1)*width + w)].y, m_normals[((h + 1)*width + w)].z );
 			glVertex3f(m_heightfield[((h + 1)*width + w)].x, m_heightfield[((h + 1)*width + w)].y , m_heightfield[((h + 1)*width + w)].z);
 		}
 		glEnd();

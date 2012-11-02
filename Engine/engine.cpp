@@ -74,8 +74,8 @@ void Engine::InitGL() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 
-	GLfloat light_position[] = { 0.0, 4.0f, 0.0, 0.0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	//GLfloat light_position[] = { 0.0, 4.0f, 0.0, 0.0 };
+	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
@@ -134,12 +134,17 @@ void Engine::Draw() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	
+
 	// Camera stuff goes here
 	//glTranslatef(0.0f, 0.0f, -5.0f);
 	m_camera->Position();
 
+	GLfloat light_position[] = {0.0, 5.0f, -5.0, 0.0 };
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
 	m_world->Draw();
+
+	m_camera->Restore();
 
 	SDL_GL_SwapBuffers();
 }
@@ -147,15 +152,14 @@ void Engine::Draw() {
 void Engine::Animate(seconds_t seconds) {
 	scalar_t x = 0, y = 0, z = 0;
 	if(IsDown('w'))
-		z = -2.0f;
+		z = -4.0f;
 	else if(IsDown('s'))
-		z = 2.0f;
-
+		z = 4.0f;
 
 	if(IsDown('a'))
-			x = -2.0f;
+			x = -4.0f;
 	else if(IsDown('d'))
-			x = 2.0f;
+			x = 4.0f;
 
 	m_camera->SetVel(CVector(x, y, z));
 
